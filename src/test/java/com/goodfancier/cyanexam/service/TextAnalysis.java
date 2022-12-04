@@ -24,9 +24,22 @@ public class TextAnalysis extends AbstractIntegrationTest
 					);
 		}
 
+		private static Stream<Arguments> smallText() {
+				return Stream.of(
+					Arguments.of("North Carolina Power", List.of("North", "Carolina", "Power")),
+					Arguments.of("Judge Weighs Legality", List.of("Judge", "Weighs", "Legality"))
+				);
+		}
+
 		@ParameterizedTest
 		@MethodSource("testTextData")
 		public void testGetUniqueWordsFromText(String text, List<String> words) {
 				assertThat(textUtils.getUniqueWordsFromText(text)).containsAnyElementsOf(words);
+		}
+
+		@ParameterizedTest
+		@MethodSource("smallText")
+		public void testGetUniqueWordsFromSmallText(String text, List<String> words) {
+				assertThat(textUtils.getUniqueWordsFromText(text)).containsAll(words);
 		}
 }
